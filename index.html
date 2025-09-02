@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>NETS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --main-red: #d60000;
+            --text-black: #222;
+        }
+
+        body {
+            background-color: white;
+            color: var(--text-black);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 30px 15px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            max-width: 180px;
+            height: auto;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--text-black);
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 12px;
+            border: 1px solid var(--main-red);
+            border-radius: 5px;
+            background: white;
+            color: var(--text-black);
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #888;
+        }
+
+        button {
+            padding: 12px;
+            background-color: var(--main-red);
+            color: white;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #a50000;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            form {
+                gap: 12px;
+            }
+
+            .logo img {
+                max-width: 150px;
+            }
+
+            input,
+            select,
+            textarea,
+            button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<form id="nets-form">
+    <div class="logo">
+        <img src="logo.png" alt="NETS Logo">
+    </div>
+
+    <label for="name">ФИО</label>
+    <input type="text" id="name" name="name" required placeholder="Введите ФИО">
+
+    <label for="phone">Номер телефона</label>
+    <input type="tel" id="phone" name="phone" required placeholder="+992 XXX XXX XXX">
+
+    <label for="tariff">Выберите тариф</label>
+    <select id="tariff" name="tariff" required>
+        <option value="">-- Выберите тариф --</option>
+        <option>Оилаи ҷавон - 155 смн</option>
+        <option>Тамошо 15 - 180 смн</option>
+        <option>Тамошо 20 - 200 смн</option>
+        <option>Тамошо 30 - 300 смн</option>
+        <option>Тамошо 50 - 500 смн</option>
+    </select>
+
+    <label for="address">Адрес</label>
+    <textarea id="address" name="address" rows="3" required placeholder="Например: г. Душанбе, ул. Рудаки, д. 25"></textarea>
+
+    <label for="promoter">Имя промоутера</label>
+    <input type="text" id="promoter" name="promoter" placeholder="Введите имя промоутера">
+
+    <button type="submit">Отправить</button>
+</form>
+
+<script>
+    document.getElementById('nets-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const tariff = document.getElementById('tariff').value;
+        const address = document.getElementById('address').value.trim();
+        const promoter = document.getElementById('promoter').value.trim();
+
+        const message = `
+📥 Новая заявка NETS:
+👤 ФИО: ${name}
+📞 Телефон: ${phone}
+📦 Тариф: ${tariff}
+📍 Адрес:\n${address}
+🧑‍💼 Промоутер: ${promoter || 'Не указан'}
+        `;
+
+        const token = '8289351698:AAHUUc-gZONjZUON5f8elW3YEbK24_03Pag'; // 🔧 Вставь сюда свой токен
+        const chatId = '7849292154'; // 🔧 Вставь сюда свой Chat ID
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Заявка успешно отправлена!");
+                document.getElementById('nets-form').reset();
+            } else {
+                alert("Ошибка при отправке. Попробуйте позже.");
+            }
+        })
+        .catch(error => {
+            alert("Ошибка соединения с Telegram.");
+            console.error(error);
+        });
+    });
+</script>
+
+</body>
+</html>
+
