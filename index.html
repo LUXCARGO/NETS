@@ -124,6 +124,13 @@
     <label for="name">ФИО</label>
     <input type="text" id="name" name="name" required placeholder="Введите ФИО">
 
+    <label for="router">Роутер:</label>
+    <select id="router" name="router" required>
+        <option value="">-- Выберите вариант --</option>
+        <option>В рассрочку</option>
+        <option>Вместе с подключением</option>
+    </select>
+
     <label for="phone">Номер телефона</label>
     <input type="tel" id="phone" name="phone" required placeholder="+992 XXX XXX XXX">
 
@@ -156,6 +163,7 @@
         statusMessage.className = '';
 
         const name = document.getElementById('name').value.trim();
+        const router = document.getElementById('router').value;
         const phone = document.getElementById('phone').value.trim();
         const tariff = document.getElementById('tariff').value;
         const address = document.getElementById('address').value.trim();
@@ -164,6 +172,7 @@
         const message = `
 📥 Новая заявка NETS:
 👤 ФИО: ${name}
+🛜 Роутер: ${router}
 📞 Телефон: ${phone}
 📦 Тариф: ${tariff}
 📍 Адрес:\n${address}
@@ -203,4 +212,3 @@
 
 </body>
 </html>
-
