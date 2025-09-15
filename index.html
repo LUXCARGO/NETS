@@ -27,15 +27,13 @@
             gap: 15px;
         }
 
-        .logo {
-            display: flex;
-            justify-content: center;
+        /* Новый заголовок */
+        .title {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--text-black);
             margin-bottom: 10px;
-        }
-
-        .logo img {
-            max-width: 180px;
-            height: auto;
         }
 
         label {
@@ -76,20 +74,29 @@
             background-color: #a50000;
         }
 
+        /* Новый стиль для результата */
         #status-message {
-            font-size: 0.95em;
+            font-size: 1em;
             font-weight: 500;
-            margin-top: -5px;
-            color: var(--main-red);
-            min-height: 1.2em;
+            margin-top: 10px;
+            text-align: center;
+            padding: 12px 15px;
+            border-radius: 10px;
+            display: none;
         }
 
         .success {
-            color: green;
+            background-color: #e8f9f0;
+            color: #1e7d42;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: block;
         }
 
         .error {
-            color: var(--main-red);
+            background-color: #fde8e8;
+            color: #c50000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: block;
         }
 
         @media (max-width: 500px) {
@@ -99,10 +106,6 @@
 
             form {
                 gap: 12px;
-            }
-
-            .logo img {
-                max-width: 150px;
             }
 
             input,
@@ -117,9 +120,7 @@
 <body>
 
 <form id="nets-form">
-    <div class="logo">
-        <img src="logo.png" alt="NETS Logo">
-    </div>
+    <div class="title">NETS</div>
 
     <label for="name">ФИО</label>
     <input type="text" id="name" name="name" required placeholder="Введите ФИО">
@@ -162,6 +163,7 @@
         const statusMessage = document.getElementById('status-message');
         statusMessage.textContent = 'Отправка...';
         statusMessage.className = '';
+        statusMessage.style.display = "block";
 
         const name = document.getElementById('name').value.trim();
         const router = document.getElementById('router').value;
