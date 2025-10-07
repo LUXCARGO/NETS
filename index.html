@@ -27,13 +27,38 @@
             gap: 15px;
         }
 
-        /* Новый заголовок */
+        /* Заголовок */
         .title {
             text-align: center;
             font-size: 1.8em;
             font-weight: bold;
             color: var(--text-black);
             margin-bottom: 10px;
+        }
+
+        /* Вкладки */
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid var(--main-red);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .tab-button.active {
+            background-color: var(--main-red);
+            color: #fff;
         }
 
         label {
@@ -74,7 +99,7 @@
             background-color: #a50000;
         }
 
-        /* Новый стиль для результата */
+        /* Статус */
         #status-message {
             font-size: 1em;
             font-weight: 500;
@@ -99,6 +124,38 @@
             display: block;
         }
 
+        /* Отчёт */
+        #report-tab {
+            width: 100%;
+            max-width: 400px;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .date-street-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .chosen-date {
+            font-size: 0.9em;
+            color: #333;
+            text-align: center;
+        }
+
+        .add-btn {
+            background-color: #007bff;
+            font-size: 1.2em;
+            padding: 8px;
+            text-align: center;
+        }
+
         @media (max-width: 500px) {
             body {
                 padding: 20px 10px;
@@ -119,47 +176,128 @@
 </head>
 <body>
 
-<form id="nets-form">
+<div style="width:100%; max-width:400px;">
     <div class="title">NETS</div>
 
-    <label for="name">ФИО</label>
-    <input type="text" id="name" name="name" required placeholder="Введите ФИО">
+    <!-- Вкладки -->
+    <div class="tab-buttons">
+        <div class="tab-button active" id="tab-zayavka-btn">Заявка</div>
+        <div class="tab-button" id="tab-otchet-btn">Отчёт</div>
+    </div>
 
-    <label for="router">Роутер:</label>
-    <select id="router" name="router" required>
-        <option value="">-- Выберите вариант --</option>
-        <option>В рассрочку</option>
-        <option>Вместе с подключением</option>
-    </select>
+    <!-- Заявка -->
+    <form id="nets-form">
+        <label for="name">ФИО</label>
+        <input type="text" id="name" name="name" required placeholder="Введите ФИО">
 
-    <label for="phone">Номер телефона</label>
-    <input type="tel" id="phone" name="phone" required placeholder="+992 XXX XXX XXX">
+        <label for="router">Роутер:</label>
+        <select id="router" name="router" required>
+            <option value="">-- Выберите вариант --</option>
+            <option>В рассрочку</option>
+            <option>Вместе с подключением</option>
+        </select>
 
-    <label for="tariff">Выберите тариф</label>
-    <select id="tariff" name="tariff" required>
-        <option value="">-- Выберите тариф --</option>
-        <option>Тамошо 5 - 100 смн</option>
-        <option>Оилаи ҷавон - 155 смн</option>
-        <option>Тамошо 15 - 180 смн</option>
-        <option>Тамошо 20 - 200 смн</option>
-        <option>Тамошо 30 - 300 смн</option>
-        <option>Тамошо 50 - 500 смн</option>
-    </select>
+        <label for="phone">Номер телефона</label>
+        <input type="tel" id="phone" name="phone" required placeholder="+992 XXX XXX XXX">
 
-    <label for="address">Адрес</label>
-    <textarea id="address" name="address" rows="3" required placeholder="Например: г. Душанбе, ул. Рудаки, д. 25"></textarea>
+        <label for="tariff">Выберите тариф</label>
+        <select id="tariff" name="tariff" required>
+            <option value="">-- Выберите тариф --</option>
+            <option>Тамошо 5 - 100 смн</option>
+            <option>Оилаи ҷавон - 155 смн</option>
+            <option>Тамошо 15 - 180 смн</option>
+            <option>Тамошо 20 - 200 смн</option>
+            <option>Тамошо 30 - 300 смн</option>
+            <option>Тамошо 50 - 500 смн</option>
+        </select>
 
-    <label for="promoter">Имя промоутера</label>
-    <input type="text" id="promoter" name="promoter" placeholder="Введите имя промоутера">
+        <label for="address">Адрес</label>
+        <textarea id="address" name="address" rows="3" required placeholder="Например: г. Душанбе, ул. Рудаки, д. 25"></textarea>
 
-    <button type="submit">Отправить</button>
-    <div id="status-message"></div>
-</form>
+        <label for="promoter">Имя промоутера</label>
+        <input type="text" id="promoter" name="promoter" placeholder="Введите имя промоутера">
+
+        <button type="submit">Отправить</button>
+        <div id="status-message"></div>
+    </form>
+
+    <!-- Отчёт -->
+    <div id="report-tab">
+        <div id="blocks-container"></div>
+        <button type="button" class="add-btn" id="add-block">➕</button>
+        <button type="button" id="send-report">Отправить</button>
+        <div id="report-status"></div>
+    </div>
+</div>
 
 <script>
+    const tabZayavkaBtn = document.getElementById('tab-zayavka-btn');
+    const tabOtchetBtn = document.getElementById('tab-otchet-btn');
+    const formTab = document.getElementById('nets-form');
+    const reportTab = document.getElementById('report-tab');
+
+    // Переключение вкладок
+    tabZayavkaBtn.addEventListener('click', () => {
+        tabZayavkaBtn.classList.add('active');
+        tabOtchetBtn.classList.remove('active');
+        formTab.style.display = 'flex';
+        reportTab.style.display = 'none';
+    });
+
+    tabOtchetBtn.addEventListener('click', () => {
+        tabOtchetBtn.classList.add('active');
+        tabZayavkaBtn.classList.remove('active');
+        formTab.style.display = 'none';
+        reportTab.style.display = 'flex';
+    });
+
+    // Добавление блоков в Отчёт
+    const blocksContainer = document.getElementById('blocks-container');
+    const addBlockBtn = document.getElementById('add-block');
+
+    function createBlock() {
+        const block = document.createElement('div');
+        block.className = 'date-street-block';
+
+        const dateLabel = document.createElement('label');
+        dateLabel.textContent = 'Выберите дату';
+
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+
+        const chosenDate = document.createElement('div');
+        chosenDate.className = 'chosen-date';
+
+        dateInput.addEventListener('change', () => {
+            chosenDate.textContent = `Выбрано: ${dateInput.value}`;
+        });
+
+        const streetLabel = document.createElement('label');
+        streetLabel.textContent = 'Введите улицу';
+
+        const streetInput = document.createElement('input');
+        streetInput.type = 'text';
+        streetInput.placeholder = 'Например: Рудаки';
+
+        block.appendChild(dateLabel);
+        block.appendChild(dateInput);
+        block.appendChild(chosenDate);
+        block.appendChild(streetLabel);
+        block.appendChild(streetInput);
+
+        return block;
+    }
+
+    addBlockBtn.addEventListener('click', () => {
+        blocksContainer.appendChild(createBlock());
+    });
+
+    // Один блок по умолчанию
+    blocksContainer.appendChild(createBlock());
+
+    // Отправка Заявки
     document.getElementById('nets-form').addEventListener('submit', function (e) {
         e.preventDefault();
-
         const statusMessage = document.getElementById('status-message');
         statusMessage.textContent = 'Отправка...';
         statusMessage.className = '';
@@ -182,18 +320,13 @@
 🧑‍💼 Промоутер: ${promoter || 'Не указан'}
         `;
 
-        const token = '8289351698:AAHUUc-gZONjZUON5f8elW3YEbK24_03Pag'; // 🔧 Вставь сюда свой токен
-        const chatId = '7849292154'; // 🔧 Вставь сюда свой Chat ID
+        const token = '8289351698:AAHUUc-gZONjZUON5f8elW3YEbK24_03Pag';
+        const chatId = '7849292154';
 
         fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: message
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: message })
         })
         .then(response => {
             if (response.ok) {
@@ -201,14 +334,52 @@
                 statusMessage.className = 'success';
                 document.getElementById('nets-form').reset();
             } else {
-                statusMessage.textContent = '❌ Ошибка при отправке. Попробуйте позже.';
+                statusMessage.textContent = '❌ Ошибка при отправке.';
                 statusMessage.className = 'error';
             }
         })
-        .catch(error => {
+        .catch(() => {
             statusMessage.textContent = '❌ Ошибка соединения с Telegram.';
             statusMessage.className = 'error';
-            console.error(error);
+        });
+    });
+
+    // Отправка Отчёта
+    document.getElementById('send-report').addEventListener('click', () => {
+        const reportStatus = document.getElementById('report-status');
+        reportStatus.textContent = 'Отправка...';
+        reportStatus.className = '';
+        reportStatus.style.display = "block";
+
+        const blocks = blocksContainer.querySelectorAll('.date-street-block');
+        let text = '📊 Новый отчёт NETS:\n';
+
+        blocks.forEach((block, i) => {
+            const date = block.querySelector('input[type="date"]').value || '—';
+            const street = block.querySelector('input[type="text"]').value.trim() || '—';
+            text += `\n${i+1}) 📅 ${date}\n📍 ${street}\n`;
+        });
+
+        const token = '8289351698:AAHUUc-gZONjZUON5f8elW3YEbK24_03Pag';
+        const chatId = '7849292154';
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text })
+        })
+        .then(response => {
+            if (response.ok) {
+                reportStatus.textContent = '✅ Отчёт успешно отправлен!';
+                reportStatus.className = 'success';
+            } else {
+                reportStatus.textContent = '❌ Ошибка при отправке.';
+                reportStatus.className = 'error';
+            }
+        })
+        .catch(() => {
+            reportStatus.textContent = '❌ Ошибка соединения с Telegram.';
+            reportStatus.className = 'error';
         });
     });
 </script>
